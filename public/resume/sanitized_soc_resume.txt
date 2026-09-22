@@ -1,0 +1,39 @@
+=======================================================================
+SANITIZED CYBERSECURITY & SOC ANALYST RESUME
+Defensive Security Specialist | Threat Hunting & Incident Triage
+Contact: analyst.leosyafiq.soc@proton.me | PGP: 4A8F C029 E17D 94BC
+=======================================================================
+
+EXECUTIVE SUMMARY
+Proactive Defensive Security Specialist and Tier 2 SOC Analyst with demonstrated
+experience triaging complex security incidents, authoring high-fidelity SIEM correlation
+queries (Splunk SPL, Sentinel KQL, Wazuh), and conducting network/host forensics.
+Top 5% Global Rank on TryHackMe. Certified Blue Team Level 1 (BTL1) & CompTIA Security+.
+
+CORE DEFENSIVE COMPETENCIES
+- SIEM & SOAR: Splunk Enterprise, Microsoft Sentinel, Wazuh XDR, Elastic/ELK
+- Endpoint & Intel: Sysmon, Velociraptor, VirusTotal, Any.Run, MITRE ATT&CK
+- Network Forensics: Wireshark, Zeek, tcpdump, Suricata IDS/IPS
+- Operating Systems & Scripting: Linux (Kali/Ubuntu), Windows Server (AD DS), Python, Bash, PowerShell
+
+VERIFIED CERTIFICATIONS & PLATFORM CREDENTIALS
+- Blue Team Level 1 (BTL1) - Security Blue Team (24h Live Incident Practical)
+- CompTIA Security+ (SY0-701)
+- Microsoft Certified: Security Operations Analyst (SC-200)
+- Splunk Core Certified Power User
+- TryHackMe: Top 5% Global Rank (75+ Completed Blue Team Rooms)
+- Hack The Box: Sherlocks DFIR Participant
+
+FEATURED INVESTIGATIONS
+1. Brute Force & SSH Lateral Movement Detection (Wazuh / Linux auth.log)
+   Correlated 4,200+ failed attempts from bulletproof host, caught pivot to internal DB,
+   authored Wazuh correlation Rule 100055.
+2. C2 Beaconing Traffic Analysis (Wireshark / Zeek / JA3)
+   Discovered low-and-slow HTTPS Cobalt Strike beaconing with 60s intervals (+/- 10% jitter).
+   Authored Microsoft Sentinel KQL query for automated detection.
+3. Phishing Execution via Malicious Macro (Sysmon Event ID 1 / VirusTotal)
+   Triaged weaponized document spawning PowerShell from Word, unmasked base64 payload,
+   purged Exchange mailboxes via Microsoft Graph API.
+
+DISCLOSURE: All employer identifiers, IP addresses, and private tokens sanitized for public security compliance.
+=======================================================================

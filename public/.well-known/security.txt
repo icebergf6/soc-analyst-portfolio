@@ -1,0 +1,7 @@
+Contact: mailto:analyst.leosyafiq.soc@proton.me
+Encryption: https://soc-portfolio.security/pgp.asc
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en, id
+Canonical: https://soc-portfolio.security/.well-known/security.txt
+Policy: https://soc-portfolio.security/policy
+Acknowledgments: https://soc-portfolio.security/acknowledgments
