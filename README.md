@@ -14,7 +14,7 @@
   <b>A production-grade, highly responsive web portfolio and interactive defensive security playground built for a Tier 1 / Tier 2 Security Operations Center (SOC) Analyst and Threat Hunter.</b>
 </p>
 
-[Live Demo](http://localhost:3000) • [Explore Investigations](#-featured-soc-incident-investigations) • [Interactive Tools](#-advanced-interactive-workbench-modules) • [Homelab Topology](#-homelab-architecture--telemetry-topology) • [Quick Start](#-quick-start--installation)
+[Live Demo](https://charming-squirrel-bcff68.netlify.app) • [Explore Investigations](#-featured-soc-incident-investigations) • [Interactive Tools](#-advanced-interactive-workbench-modules) • [Homelab Topology](#-homelab-architecture--telemetry-topology) • [Quick Start](#-quick-start--installation)
 
 </div>
 

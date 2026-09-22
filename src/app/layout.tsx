@@ -13,6 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://charming-squirrel-bcff68.netlify.app"),
   title: "SOC Analyst & Defensive Security Specialist | Incident Response & Threat Hunting Portfolio",
   description: "Production portfolio of a Cybersecurity & SOC Analyst specializing in SIEM correlation, network forensics, threat hunting, and incident triage.",
   keywords: ["SOC Analyst", "Cybersecurity", "Incident Response", "Threat Hunting", "Splunk", "Wazuh", "Sysmon", "Blue Team", "MITRE ATT&CK"],
@@ -20,6 +21,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: "SOC Analyst & Defensive Security Specialist Portfolio",
     description: "Real-world incident investigations, SIEM queries, homelab topology, and technical threat writeups.",
+    url: "https://charming-squirrel-bcff68.netlify.app",
+    siteName: "SOC Defensive Portfolio",
     type: "website",
   }
 };

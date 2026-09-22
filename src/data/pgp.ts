@@ -6,7 +6,7 @@ export const PGP_DATA = {
   linkedin: "https://linkedin.com",
   tryhackme: "https://tryhackme.com",
   hackthebox: "https://hackthebox.com",
-  terminalImportCmd: "curl -s https://soc-portfolio.security/pgp.asc | gpg --import",
+  terminalImportCmd: "curl -s https://charming-squirrel-bcff68.netlify.app/pgp.asc | gpg --import",
   sanitizedDisclaimer: "All IP addresses (RFC 5737 / RFC 1918), hostnames, MAC addresses, and target identifiers displayed in this portfolio have been rigorously sanitized and anonymized. All investigations were conducted within isolated, legally authorized cyber ranges and homelab environments adhering to responsible disclosure and privacy best practices.",
   publicKeyArmored: `-----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: OpenPGP.js v5.10.1

@@ -19,6 +19,7 @@ import {
   Copy,
   Check
 } from "lucide-react";
+import { playCyberSound } from "@/utils/audio";
 
 interface PillarCard {
   id: string;
@@ -42,6 +43,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ onShowToast }) =
     e.stopPropagation();
     navigator.clipboard.writeText(pillar.sampleSyntax);
     setCopiedPillarId(pillar.id);
+    playCyberSound("success");
     onShowToast?.(`Detection query for "${pillar.title}" copied!`);
     setTimeout(() => setCopiedPillarId(null), 2000);
   };
@@ -187,7 +189,10 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({ onShowToast }) =
                 return (
                   <div
                     key={pillar.id}
-                    onClick={() => setActivePillar(pillar.id)}
+                    onClick={() => {
+                      playCyberSound("click");
+                      setActivePillar(pillar.id);
+                    }}
                     className={`cursor-pointer rounded-2xl border p-5 transition-all flex flex-col justify-between ${
                       isActive
                         ? "bg-slate-800/90 border-emerald-500/70 shadow-lg shadow-emerald-500/5 scale-[1.01]"

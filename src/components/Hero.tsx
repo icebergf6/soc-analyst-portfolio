@@ -27,6 +27,7 @@ import {
   Sparkles,
   Info
 } from "lucide-react";
+import { playCyberSound } from "@/utils/audio";
 
 interface HeroProps {
   onOpenCmd?: () => void;
@@ -185,26 +186,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCmd }) => {
 
   // Inject Simulated Live Threat Alert
   const handleInjectThreat = () => {
-    // Play cyber alert blip via Web Audio
-    try {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      if (AudioCtx) {
-        const ctx = new AudioCtx();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = "sawtooth";
-        osc.frequency.setValueAtTime(880, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.15);
-        gain.gain.setValueAtTime(0.06, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.16);
-      }
-    } catch {
-      // AudioContext policy fallback
-    }
+    playCyberSound("alert");
 
     const now = new Date().toISOString().replace("T", " ").substring(0, 19) + " UTC";
     const emergencyEvent: LiveTelemetryEvent = {
@@ -239,6 +221,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCmd }) => {
   };
 
   const toggleEventExpand = (id: string) => {
+    playCyberSound("click");
     setExpandedEventId(prev => prev === id ? null : id);
   };
 
@@ -265,11 +248,14 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCmd }) => {
               
               {/* DEFCON Status Pill */}
               <button 
-                onClick={() => setDefconLevel(prev => {
-                  if (prev === "DEFCON 3 (WATCH)") return "DEFCON 2 (ELEVATED)";
-                  if (prev === "DEFCON 2 (ELEVATED)") return "DEFCON 1 (ACTIVE INCIDENT)";
-                  return "DEFCON 3 (WATCH)";
-                })}
+                onClick={() => {
+                  playCyberSound("toggle");
+                  setDefconLevel(prev => {
+                    if (prev === "DEFCON 3 (WATCH)") return "DEFCON 2 (ELEVATED)";
+                    if (prev === "DEFCON 2 (ELEVATED)") return "DEFCON 1 (ACTIVE INCIDENT)";
+                    return "DEFCON 3 (WATCH)";
+                  });
+                }}
                 className={`cursor-pointer inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-xs font-mono backdrop-blur-md transition-all shadow-sm ${
                   defconLevel.includes("ACTIVE") 
                     ? "bg-rose-950/60 border-rose-500/80 text-rose-300 shadow-rose-500/20 shadow-lg"
@@ -483,7 +469,10 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCmd }) => {
                   {(["ALL", "NETWORK", "ENDPOINT", "SIEM"] as const).map((filter) => (
                     <button
                       key={filter}
-                      onClick={() => setSelectedFilter(filter)}
+                      onClick={() => {
+                        playCyberSound("click");
+                        setSelectedFilter(filter);
+                      }}
                       className={`px-2 py-0.5 rounded transition-all ${
                         selectedFilter === filter
                           ? "bg-emerald-500/20 text-emerald-300 font-semibold border border-emerald-500/40 shadow-sm"
