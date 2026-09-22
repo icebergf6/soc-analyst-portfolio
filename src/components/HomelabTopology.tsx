@@ -17,13 +17,20 @@ import {
   Radio,
   FileText,
   Zap,
-  PlayCircle
+  PlayCircle,
+  Copy,
+  Check
 } from "lucide-react";
 
-export const HomelabTopology: React.FC = () => {
+interface HomelabTopologyProps {
+  onShowToast?: (msg: string) => void;
+}
+
+export const HomelabTopology: React.FC<HomelabTopologyProps> = ({ onShowToast }) => {
   const [selectedNode, setSelectedNode] = useState<HomelabNode>(HOMELAB_NODES[0]);
   const [packetStep, setPacketStep] = useState(0);
   const [latency, setLatency] = useState(1.4);
+  const [copiedSample, setCopiedSample] = useState(false);
 
   // Simulate packet tracer flow
   useEffect(() => {
@@ -33,6 +40,13 @@ export const HomelabTopology: React.FC = () => {
     }, 1800);
     return () => clearInterval(timer);
   }, []);
+
+  const handleCopySample = () => {
+    navigator.clipboard.writeText(selectedNode.sampleLog);
+    setCopiedSample(true);
+    onShowToast?.(`Telemetry sample for ${selectedNode.name} copied!`);
+    setTimeout(() => setCopiedSample(false), 2000);
+  };
 
   const flowNodes = [
     { name: "Kali Attacker", vlan: "VLAN 10", ip: "192.168.10.99" },
@@ -275,7 +289,27 @@ export const HomelabTopology: React.FC = () => {
                     <Terminal className="w-3.5 h-3.5" />
                     <span>Real-time Ingested Telemetry Sample</span>
                   </span>
-                  <span className="text-slate-500 text-[11px]">JSON / Syslog format</span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={handleCopySample}
+                      className="inline-flex items-center gap-1 text-[10px] text-slate-400 hover:text-emerald-400 transition-colors font-mono"
+                      title="Copy telemetry sample"
+                    >
+                      {copiedSample ? (
+                        <>
+                          <Check className="w-3 h-3 text-emerald-400" />
+                          <span className="text-emerald-400">Copied</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3 h-3" />
+                          <span>Copy Sample</span>
+                        </>
+                      )}
+                    </button>
+                    <span className="text-slate-600">|</span>
+                    <span className="text-slate-500 text-[11px]">JSON / Syslog</span>
+                  </div>
                 </div>
                 <pre className="p-3 rounded-lg bg-black/90 border border-slate-800 text-[11px] font-mono text-emerald-300/90 overflow-x-auto whitespace-pre-wrap break-all leading-relaxed">
                   <code>{selectedNode.sampleLog}</code>

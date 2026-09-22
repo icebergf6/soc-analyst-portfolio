@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { ToolsMarquee } from "@/components/ToolsMarquee";
@@ -28,6 +28,18 @@ export default function Home() {
     setToastMessage(msg);
   };
 
+  // Global keyboard shortcut: Ctrl+K or Cmd+K toggles Command Palette
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setCmdPaletteOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col selection:bg-emerald-500/30 selection:text-emerald-300 pb-16 md:pb-0 transition-colors duration-300">
       {/* 1. Sticky Glassmorphic Navbar */}
@@ -51,23 +63,23 @@ export default function Home() {
         <CertBadges />
 
         {/* 6. Featured SOC Incident Case Studies (with IncidentReportModal) */}
-        <CaseStudies />
+        <CaseStudies onShowToast={showToast} />
 
         {/* Interactive Defensive Workbench Subsections */}
-        <MitreMatrix />
-        <PcapDissector />
-        <ArsenalMatrix />
-        <SiemSandbox />
+        <MitreMatrix onShowToast={showToast} />
+        <PcapDissector onShowToast={showToast} />
+        <ArsenalMatrix onShowToast={showToast} />
+        <SiemSandbox onShowToast={showToast} />
 
         {/* 7. Homelab Architecture & Infrastructure Topology */}
-        <HomelabTopology />
+        <HomelabTopology onShowToast={showToast} />
 
         {/* 8. Technical Writeups & Blue Team Research */}
         <TechnicalWriteups />
       </main>
 
       {/* 9. Contact & Verification Footer */}
-      <Footer />
+      <Footer onShowToast={showToast} />
 
       {/* Interactive Command Palette (Ctrl+K) */}
       <CommandPalette

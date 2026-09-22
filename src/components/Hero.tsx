@@ -296,6 +296,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenCmd }) => {
                 <div className="flex items-center gap-2 pr-16 sm:pr-20">
                   <button
                     onClick={() => setIsStreaming(!isStreaming)}
+                    aria-label={isStreaming ? "Pause live telemetry stream" : "Resume live telemetry stream"}
                     className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition-colors"
                     title={isStreaming ? "Pause Telemetry Stream" : "Resume Telemetry Stream"}
                   >

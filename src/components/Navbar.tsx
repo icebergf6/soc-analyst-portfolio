@@ -87,6 +87,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenCmd }) => {
           {/* Quick Search Shortcut */}
           <button
             onClick={onOpenCmd}
+            aria-label="Search command palette (Ctrl+K)"
             className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-400 hover:text-slate-200 transition-all"
             title="Search command palette (Ctrl+K)"
           >
@@ -99,6 +100,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenResume, onOpenCmd }) => {
 
           <button
             onClick={onOpenResume}
+            aria-label="View and download sanitized resume"
             className="hidden sm:inline-flex items-center gap-2 px-3.5 py-2 text-xs font-medium rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 hover:bg-emerald-500/20 hover:border-emerald-500/60 transition-all shadow-sm active:scale-95"
           >
             <FileText className="w-3.5 h-3.5 text-emerald-400" />

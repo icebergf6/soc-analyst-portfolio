@@ -35,18 +35,9 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
 }) => {
   const [query, setQuery] = useState("");
 
+  // Close on Escape key and lock body scroll
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        if (isOpen) {
-          onClose();
-        } else {
-          // Open
-          const btn = document.getElementById("cmd-palette-trigger");
-          if (btn) btn.click();
-        }
-      }
       if (e.key === "Escape" && isOpen) {
         onClose();
       }
@@ -54,6 +45,17 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -136,9 +138,12 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
   ).slice(0, 4);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
+    <div 
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-start justify-center pt-20 p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150 cursor-pointer"
+    >
       <div 
-        className="w-full max-w-2xl bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden shadow-black/80"
+        className="w-full max-w-2xl bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden shadow-black/80 cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Search Input Bar */}
@@ -155,7 +160,11 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
           <kbd className="hidden sm:inline-flex items-center px-2 py-0.5 text-[10px] font-mono rounded bg-slate-800 text-slate-400 border border-slate-700">
             ESC
           </kbd>
-          <button onClick={onClose} className="text-slate-400 hover:text-white sm:hidden">
+          <button 
+            onClick={onClose} 
+            className="text-slate-400 hover:text-white sm:hidden"
+            aria-label="Close command palette"
+          >
             <X className="w-5 h-5" />
           </button>
         </div>

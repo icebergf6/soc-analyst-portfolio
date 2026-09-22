@@ -15,7 +15,11 @@ import {
   ExternalLink
 } from "lucide-react";
 
-export const CaseStudies: React.FC = () => {
+interface CaseStudiesProps {
+  onShowToast?: (msg: string) => void;
+}
+
+export const CaseStudies: React.FC<CaseStudiesProps> = ({ onShowToast }) => {
   const [selectedIncident, setSelectedIncident] = useState<IncidentCase | null>(null);
 
   return (
@@ -133,6 +137,7 @@ export const CaseStudies: React.FC = () => {
       <IncidentReportModal
         incident={selectedIncident}
         onClose={() => setSelectedIncident(null)}
+        onShowToast={onShowToast}
       />
     </section>
   );

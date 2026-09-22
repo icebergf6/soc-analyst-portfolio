@@ -10,13 +10,27 @@ import {
   Code, 
   CheckCircle2, 
   ArrowRight,
-  Filter
+  Filter,
+  Copy,
+  Check
 } from "lucide-react";
 
-export const MitreMatrix: React.FC = () => {
+interface MitreMatrixProps {
+  onShowToast?: (msg: string) => void;
+}
+
+export const MitreMatrix: React.FC<MitreMatrixProps> = ({ onShowToast }) => {
   const [selectedTechnique, setSelectedTechnique] = useState<MitreTechniqueItem>(
     MITRE_TACTICS_DATA[0].techniques[0]
   );
+  const [copiedQuery, setCopiedQuery] = useState(false);
+
+  const handleCopyQuery = () => {
+    navigator.clipboard.writeText(selectedTechnique.detectionRule);
+    setCopiedQuery(true);
+    onShowToast?.(`Detection rule for ${selectedTechnique.id} copied to clipboard!`);
+    setTimeout(() => setCopiedQuery(false), 2000);
+  };
 
   return (
     <section id="mitre-matrix" className="py-16 bg-[#070b13] border-t border-slate-800/80 relative">
@@ -128,9 +142,28 @@ export const MitreMatrix: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
             {/* Detection Query Rule */}
             <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 space-y-2">
-              <div className="flex items-center gap-2 text-[10px] font-mono text-emerald-400 uppercase tracking-wider">
-                <Code className="w-3.5 h-3.5" />
-                <span>Detection Engineering Query</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2 text-[10px] font-mono text-emerald-400 uppercase tracking-wider">
+                  <Code className="w-3.5 h-3.5" />
+                  <span>Detection Engineering Query</span>
+                </div>
+                <button
+                  onClick={handleCopyQuery}
+                  className="inline-flex items-center gap-1 text-[10px] font-mono text-slate-400 hover:text-emerald-400 transition-colors"
+                  title="Copy detection query"
+                >
+                  {copiedQuery ? (
+                    <>
+                      <Check className="w-3 h-3 text-emerald-400" />
+                      <span className="text-emerald-400">Copied</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3 h-3" />
+                      <span>Copy Query</span>
+                    </>
+                  )}
+                </button>
               </div>
               <pre className="p-2.5 rounded bg-black/90 border border-slate-800/80 text-[11px] font-mono text-emerald-300 whitespace-pre-wrap leading-relaxed">
                 <code>{selectedTechnique.detectionRule}</code>

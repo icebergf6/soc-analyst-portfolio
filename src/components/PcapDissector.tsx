@@ -11,18 +11,40 @@ import {
   ShieldCheck, 
   FileSearch,
   CheckCircle,
-  Clock
+  Clock,
+  Copy,
+  Check
 } from "lucide-react";
 
-export const PcapDissector: React.FC = () => {
+interface PcapDissectorProps {
+  onShowToast?: (msg: string) => void;
+}
+
+export const PcapDissector: React.FC<PcapDissectorProps> = ({ onShowToast }) => {
   const [selectedPacket, setSelectedPacket] = useState<PcapPacket>(SANITIZED_PCAP_STREAM[2]); // Default Client Hello
   const [activeProtoFilter, setActiveProtoFilter] = useState<string>("ALL");
   const [expandedLayers, setExpandedLayers] = useState<Record<number, boolean>>({ 0: true, 1: true });
+  const [copiedHex, setCopiedHex] = useState(false);
 
   const filteredPackets = SANITIZED_PCAP_STREAM.filter((p) => {
     if (activeProtoFilter === "ALL") return true;
     return p.protocol === activeProtoFilter;
   });
+
+  const handleFilterChange = (proto: string) => {
+    setActiveProtoFilter(proto);
+    if (proto !== "ALL") {
+      const match = SANITIZED_PCAP_STREAM.find((p) => p.protocol === proto);
+      if (match) setSelectedPacket(match);
+    }
+  };
+
+  const handleCopyHex = () => {
+    navigator.clipboard.writeText(selectedPacket.hexDump);
+    setCopiedHex(true);
+    onShowToast?.(`Frame #${selectedPacket.frameNo} hex dump copied to clipboard!`);
+    setTimeout(() => setCopiedHex(false), 2000);
+  };
 
   const toggleLayer = (index: number) => {
     setExpandedLayers((prev) => ({
@@ -54,7 +76,7 @@ export const PcapDissector: React.FC = () => {
             {["ALL", "TCP", "TLSv1.3"].map((proto) => (
               <button
                 key={proto}
-                onClick={() => setActiveProtoFilter(proto)}
+                onClick={() => handleFilterChange(proto)}
                 className={`px-3 py-1 rounded transition-colors ${
                   activeProtoFilter === proto
                     ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
@@ -168,7 +190,27 @@ export const PcapDissector: React.FC = () => {
             <div className="lg:col-span-5 p-4 space-y-2 max-h-[300px] overflow-y-auto font-mono text-xs">
               <div className="flex items-center justify-between text-[10px] text-slate-500 uppercase tracking-wider">
                 <span>Hexadecimal / ASCII Dump</span>
-                <span className="text-cyan-400">Offset: 0x0000</span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={handleCopyHex}
+                    className="inline-flex items-center gap-1 text-slate-400 hover:text-emerald-400 transition-colors text-[10px] font-mono"
+                    title="Copy hex dump to clipboard"
+                  >
+                    {copiedHex ? (
+                      <>
+                        <Check className="w-3 h-3 text-emerald-400" />
+                        <span className="text-emerald-400">Copied</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3 h-3" />
+                        <span>Copy Hex</span>
+                      </>
+                    )}
+                  </button>
+                  <span className="text-slate-600">|</span>
+                  <span className="text-cyan-400">Offset: 0x0000</span>
+                </div>
               </div>
               <pre className="p-3 rounded-xl bg-black/90 border border-slate-800/80 text-[11px] text-slate-300 overflow-x-auto whitespace-pre leading-relaxed select-all">
                 <code>{selectedPacket.hexDump}</code>

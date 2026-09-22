@@ -18,6 +18,26 @@
   }
 }
 
+/* Pure OLED Black Mode overrides */
+.oled-mode {
+  --background: #000000;
+}
+
+.oled-mode body,
+.oled-mode .bg-\[\#090d16\],
+.oled-mode .bg-\[\#080c14\],
+.oled-mode .bg-\[\#080c15\],
+.oled-mode .bg-\[\#070b13\],
+.oled-mode .bg-\[\#060910\] {
+  background-color: #000000 !important;
+}
+
+.oled-mode .bg-slate-950\/90,
+.oled-mode .bg-slate-950\/80,
+.oled-mode .bg-slate-950\/60 {
+  background-color: rgba(5, 5, 5, 0.95) !important;
+}
+
 /* Cyber Grid Background Pattern */
 .bg-grid-pattern {
   background-size: 32px 32px;

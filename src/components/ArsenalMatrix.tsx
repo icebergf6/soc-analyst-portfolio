@@ -55,7 +55,11 @@ const renderToolIcon = (iconName: string) => {
   }
 };
 
-export const ArsenalMatrix: React.FC = () => {
+interface ArsenalMatrixProps {
+  onShowToast?: (msg: string) => void;
+}
+
+export const ArsenalMatrix: React.FC<ArsenalMatrixProps> = ({ onShowToast }) => {
   const [selectedCategory, setSelectedCategory] = useState<ToolCategory | "All Categories">("All Categories");
   const [searchQuery, setSearchQuery] = useState("");
   const [copiedId, setCopiedId] = useState<string | null>(null);
@@ -72,9 +76,10 @@ export const ArsenalMatrix: React.FC = () => {
     });
   }, [selectedCategory, searchQuery]);
 
-  const handleCopySyntax = (toolId: string, syntax: string) => {
+  const handleCopySyntax = (toolId: string, syntax: string, toolName?: string) => {
     navigator.clipboard.writeText(syntax);
     setCopiedId(toolId);
+    onShowToast?.(`Query snippet for ${toolName || "tool"} copied to clipboard!`);
     setTimeout(() => setCopiedId(null), 2000);
   };
 
@@ -182,7 +187,7 @@ export const ArsenalMatrix: React.FC = () => {
                         <span>Telemetry / Query Snippet</span>
                       </span>
                       <button
-                        onClick={() => handleCopySyntax(tool.id, tool.highlightSyntax!)}
+                        onClick={() => handleCopySyntax(tool.id, tool.highlightSyntax!, tool.name)}
                         className="text-slate-400 hover:text-emerald-400 transition-colors flex items-center gap-1"
                         title="Copy query syntax"
                       >

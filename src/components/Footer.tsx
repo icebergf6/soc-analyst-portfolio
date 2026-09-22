@@ -16,7 +16,11 @@ import {
   AlertCircle
 } from "lucide-react";
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onShowToast?: (msg: string) => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onShowToast }) => {
   const [pgpOpen, setPgpOpen] = useState(false);
   const [copiedPgp, setCopiedPgp] = useState(false);
   const [copiedFingerprint, setCopiedFingerprint] = useState(false);
@@ -25,18 +29,21 @@ export const Footer: React.FC = () => {
   const handleCopyPgp = () => {
     navigator.clipboard.writeText(PGP_DATA.publicKeyArmored);
     setCopiedPgp(true);
+    onShowToast?.("PGP armored public key copied to clipboard!");
     setTimeout(() => setCopiedPgp(false), 2000);
   };
 
   const handleCopyFingerprint = () => {
     navigator.clipboard.writeText(PGP_DATA.fingerprint);
     setCopiedFingerprint(true);
+    onShowToast?.("PGP Key Fingerprint copied to clipboard!");
     setTimeout(() => setCopiedFingerprint(false), 2000);
   };
 
   const handleCopyCmd = () => {
     navigator.clipboard.writeText(PGP_DATA.terminalImportCmd);
     setCopiedCmd(true);
+    onShowToast?.("GPG terminal import command copied!");
     setTimeout(() => setCopiedCmd(false), 2000);
   };
 
@@ -92,6 +99,7 @@ export const Footer: React.FC = () => {
                 href={PGP_DATA.github}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit GitHub Repositories"
                 className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition-colors"
                 title="GitHub Repositories"
               >
@@ -103,6 +111,7 @@ export const Footer: React.FC = () => {
                 href={PGP_DATA.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit LinkedIn Profile"
                 className="p-2.5 rounded-lg bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 hover:text-white transition-colors"
                 title="LinkedIn Profile"
               >
@@ -114,6 +123,7 @@ export const Footer: React.FC = () => {
                 href={PGP_DATA.tryhackme}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit TryHackMe Profile"
                 className="px-3 py-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-emerald-500/50 text-xs font-mono text-emerald-400 transition-colors"
               >
                 TryHackMe Profile
@@ -122,6 +132,7 @@ export const Footer: React.FC = () => {
                 href={PGP_DATA.hackthebox}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Visit Hack The Box Profile"
                 className="px-3 py-2 rounded-lg bg-slate-900 border border-slate-800 hover:border-cyan-500/50 text-xs font-mono text-cyan-400 transition-colors"
               >
                 HTB Profile

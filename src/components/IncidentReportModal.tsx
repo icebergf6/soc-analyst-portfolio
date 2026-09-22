@@ -25,9 +25,14 @@ import {
 interface IncidentReportModalProps {
   incident: IncidentCase | null;
   onClose: () => void;
+  onShowToast?: (msg: string) => void;
 }
 
-export const IncidentReportModal: React.FC<IncidentReportModalProps> = ({ incident, onClose }) => {
+export const IncidentReportModal: React.FC<IncidentReportModalProps> = ({ 
+  incident, 
+  onClose,
+  onShowToast 
+}) => {
   const [activeTab, setActiveTab] = useState<"overview" | "timeline" | "queries" | "containment" | "iocs">("overview");
   const [copiedQueryIdx, setCopiedQueryIdx] = useState<number | null>(null);
   const [copiedIocValue, setCopiedIocValue] = useState<string | null>(null);
@@ -58,12 +63,14 @@ export const IncidentReportModal: React.FC<IncidentReportModalProps> = ({ incide
   const handleCopyQuery = (syntax: string, idx: number) => {
     navigator.clipboard.writeText(syntax);
     setCopiedQueryIdx(idx);
+    onShowToast?.("Query syntax copied to clipboard!");
     setTimeout(() => setCopiedQueryIdx(null), 2000);
   };
 
   const handleCopyIoc = (val: string) => {
     navigator.clipboard.writeText(val);
     setCopiedIocValue(val);
+    onShowToast?.(`IoC [${val}] copied to clipboard!`);
     setTimeout(() => setCopiedIocValue(null), 2000);
   };
 
@@ -72,9 +79,12 @@ export const IncidentReportModal: React.FC<IncidentReportModalProps> = ({ incide
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-black/85 backdrop-blur-md animate-in fade-in duration-200">
+    <div 
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto bg-black/85 backdrop-blur-md animate-in fade-in duration-200 cursor-pointer"
+    >
       <div 
-        className="relative w-full max-w-4xl bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl shadow-black/80 overflow-hidden my-auto"
+        className="relative w-full max-w-4xl bg-slate-900 border border-slate-700/80 rounded-2xl shadow-2xl shadow-black/80 overflow-hidden my-auto cursor-default"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Modal Header */}

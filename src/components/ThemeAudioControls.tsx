@@ -61,6 +61,7 @@ export const ThemeAudioControls: React.FC = () => {
       {/* OLED Black Theme Toggle */}
       <button
         onClick={toggleTheme}
+        aria-label={isOled ? "Switch to Tactical Slate background" : "Switch to Pure OLED Black background"}
         className={`px-2 py-1 rounded flex items-center gap-1 transition-all ${
           isOled
             ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/40"
@@ -75,6 +76,7 @@ export const ThemeAudioControls: React.FC = () => {
       {/* Cyber Sound FX Toggle */}
       <button
         onClick={toggleMute}
+        aria-label={isMuted ? "Unmute Cyber UI Sound Effects" : "Mute Sound Effects"}
         className={`p-1.5 rounded transition-all ${
           !isMuted
             ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/40"

@@ -14,9 +14,22 @@ import {
   Sparkles
 } from "lucide-react";
 
-export const SiemSandbox: React.FC = () => {
+interface SiemSandboxProps {
+  onShowToast?: (msg: string) => void;
+}
+
+export const SiemSandbox: React.FC<SiemSandboxProps> = ({ onShowToast }) => {
   const [query, setQuery] = useState("");
   const [selectedLog, setSelectedLog] = useState<SiemLogEntry | null>(null);
+  const [copiedJson, setCopiedJson] = useState(false);
+
+  const handleCopyJson = () => {
+    if (!selectedLog) return;
+    navigator.clipboard.writeText(JSON.stringify(selectedLog.parsedFields, null, 2));
+    setCopiedJson(true);
+    onShowToast?.(`Parsed JSON for log #${selectedLog.id} copied to clipboard!`);
+    setTimeout(() => setCopiedJson(false), 2000);
+  };
 
   const presetQueries = [
     { label: "Failed SSH (4625/5710)", value: "Failed password" },
@@ -163,15 +176,35 @@ export const SiemSandbox: React.FC = () => {
           {selectedLog && (
             <div className="p-4 bg-slate-950 border-t border-slate-800 space-y-2 animate-fade-in-up">
               <div className="flex items-center justify-between text-xs font-mono">
-                <span className="text-emerald-400 font-semibold">
+                <span className="text-emerald-400 font-semibold truncate max-w-xs sm:max-w-md">
                   Parsed JSON Fields (ID: {selectedLog.id} | Host: {selectedLog.host})
                 </span>
-                <button
-                  onClick={() => setSelectedLog(null)}
-                  className="text-slate-400 hover:text-white"
-                >
-                  Close Inspection
-                </button>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={handleCopyJson}
+                    className="inline-flex items-center gap-1 text-slate-300 hover:text-emerald-400 transition-colors text-xs"
+                    title="Copy parsed JSON"
+                  >
+                    {copiedJson ? (
+                      <>
+                        <Check className="w-3.5 h-3.5 text-emerald-400" />
+                        <span className="text-emerald-400">Copied</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5" />
+                        <span>Copy JSON</span>
+                      </>
+                    )}
+                  </button>
+                  <span className="text-slate-700">|</span>
+                  <button
+                    onClick={() => setSelectedLog(null)}
+                    className="text-slate-400 hover:text-white"
+                  >
+                    Close Inspection
+                  </button>
+                </div>
               </div>
               <pre className="p-3 rounded-lg bg-black/80 border border-slate-800 text-[11px] font-mono text-emerald-300 overflow-x-auto whitespace-pre-wrap">
                 <code>{JSON.stringify(selectedLog.parsedFields, null, 2)}</code>
