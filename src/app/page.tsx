@@ -3,12 +3,14 @@
 import React, { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
+import { ToolsMarquee } from "@/components/ToolsMarquee";
+import { ProfileSection } from "@/components/ProfileSection";
 import { CertBadges } from "@/components/CertBadges";
-import { ArsenalMatrix } from "@/components/ArsenalMatrix";
-import { SiemSandbox } from "@/components/SiemSandbox";
 import { CaseStudies } from "@/components/CaseStudies";
 import { MitreMatrix } from "@/components/MitreMatrix";
 import { PcapDissector } from "@/components/PcapDissector";
+import { ArsenalMatrix } from "@/components/ArsenalMatrix";
+import { SiemSandbox } from "@/components/SiemSandbox";
 import { HomelabTopology } from "@/components/HomelabTopology";
 import { TechnicalWriteups } from "@/components/TechnicalWriteups";
 import { Footer } from "@/components/Footer";
@@ -28,7 +30,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#090d16] text-slate-100 flex flex-col selection:bg-emerald-500/30 selection:text-emerald-300 pb-16 md:pb-0 transition-colors duration-300">
-      {/* Sticky Glassmorphic Header */}
+      {/* 1. Sticky Glassmorphic Navbar */}
       <Navbar 
         onOpenResume={() => setResumeModalOpen(true)}
         onOpenCmd={() => setCmdPaletteOpen(true)}
@@ -36,35 +38,35 @@ export default function Home() {
 
       {/* Main Content Sections */}
       <main className="flex-1">
-        {/* 1. Hero Section with Live Stream Telemetry & Radar */}
+        {/* 2. Hero Section with Live Stream Telemetry, DEFCON, & Radar */}
         <Hero onOpenCmd={() => setCmdPaletteOpen(true)} />
 
-        {/* 2. Competence & Platform Badges (TryHackMe, HTB, Certs) */}
+        {/* 3. Infinite Tools Marquee Banner (Continuous Horizontal Scroll) */}
+        <ToolsMarquee />
+
+        {/* 4. Comprehensive Operational Profile & Core Defensive Pillars */}
+        <ProfileSection />
+
+        {/* 5. Proof of Competence & Platform Badges (TryHackMe, HTB, Certs) */}
         <CertBadges />
 
-        {/* 3. SOC Tool Arsenal & Skills Matrix */}
-        <ArsenalMatrix />
-
-        {/* 4. Interactive Live SIEM Query Sandbox */}
-        <SiemSandbox />
-
-        {/* 5. Featured SOC Incident Case Studies */}
+        {/* 6. Featured SOC Incident Case Studies (with IncidentReportModal) */}
         <CaseStudies />
 
-        {/* 6. Interactive MITRE ATT&CK Matrix Navigator */}
+        {/* Interactive Defensive Workbench Subsections */}
         <MitreMatrix />
-
-        {/* 7. Interactive Web PCAP Packet Dissector */}
         <PcapDissector />
+        <ArsenalMatrix />
+        <SiemSandbox />
 
-        {/* 8. Homelab Architecture & Topology with Live Packet Tracer */}
+        {/* 7. Homelab Architecture & Infrastructure Topology */}
         <HomelabTopology />
 
-        {/* 9. Technical Writeups & Blue Team Research */}
+        {/* 8. Technical Writeups & Blue Team Research */}
         <TechnicalWriteups />
       </main>
 
-      {/* Verification Footer & Collapsible PGP */}
+      {/* 9. Contact & Verification Footer */}
       <Footer />
 
       {/* Interactive Command Palette (Ctrl+K) */}

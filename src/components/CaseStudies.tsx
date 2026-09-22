@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { FEATURED_INCIDENTS } from "@/data/incidents";
+import { CASE_STUDIES } from "@/data/caseStudies";
 import { IncidentCase } from "@/types/portfolio";
-import { IncidentModal } from "./IncidentModal";
+import { IncidentReportModal } from "./IncidentReportModal";
 import { 
   ShieldAlert, 
   Clock, 
@@ -43,7 +43,7 @@ export const CaseStudies: React.FC = () => {
 
         {/* 3 Featured Incident Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {FEATURED_INCIDENTS.map((incident) => {
+          {CASE_STUDIES.map((incident) => {
             const isCritical = incident.severity === "Critical";
 
             return (
@@ -120,7 +120,7 @@ export const CaseStudies: React.FC = () => {
                   onClick={() => setSelectedIncident(incident)}
                   className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-slate-800 hover:bg-emerald-500 hover:text-slate-950 text-slate-200 text-xs font-semibold tracking-wide transition-all shadow-sm active:scale-95 group/btn"
                 >
-                  <span>View Full Incident Report</span>
+                  <span>View Investigation</span>
                   <ArrowUpRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
                 </button>
               </div>
@@ -130,7 +130,7 @@ export const CaseStudies: React.FC = () => {
       </div>
 
       {/* Detail Modal Component */}
-      <IncidentModal
+      <IncidentReportModal
         incident={selectedIncident}
         onClose={() => setSelectedIncident(null)}
       />
