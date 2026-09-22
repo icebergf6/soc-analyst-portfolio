@@ -15,7 +15,9 @@ import {
   Database,
   Layers,
   Flame,
-  Radio
+  Radio,
+  Copy,
+  Check
 } from "lucide-react";
 
 interface PillarCard {
@@ -28,8 +30,22 @@ interface PillarCard {
   sampleSyntax: string;
 }
 
-export const ProfileSection: React.FC = () => {
+interface ProfileSectionProps {
+  onShowToast?: (msg: string) => void;
+}
+
+export const ProfileSection: React.FC<ProfileSectionProps> = ({ onShowToast }) => {
   const [activePillar, setActivePillar] = useState<string>("pillar-1");
+  const [copiedPillarId, setCopiedPillarId] = useState<string | null>(null);
+
+  const handleCopySyntax = (e: React.MouseEvent, pillar: PillarCard) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(pillar.sampleSyntax);
+    setCopiedPillarId(pillar.id);
+    onShowToast?.(`Detection query for "${pillar.title}" copied!`);
+    setTimeout(() => setCopiedPillarId(null), 2000);
+  };
+
 
   const pillars: PillarCard[] = [
     {
@@ -207,12 +223,29 @@ export const ProfileSection: React.FC = () => {
                       </ul>
                     </div>
 
-                    {/* Telemetry Snippet Footnote */}
+                    {/* Telemetry Snippet Footnote with Copy */}
                     <div className="mt-4 pt-3 border-t border-slate-800/80">
-                      <div className="text-[10px] font-mono text-slate-500 mb-1">
-                        Sample Syntax / Rule:
+                      <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 mb-1.5">
+                        <span>Sample Syntax / Rule:</span>
+                        <button
+                          onClick={(e) => handleCopySyntax(e, pillar)}
+                          className="inline-flex items-center gap-1 text-[10px] font-mono text-slate-400 hover:text-emerald-400 transition-colors px-1.5 py-0.5 rounded bg-slate-900 border border-slate-800 hover:border-slate-700"
+                          title="Copy rule syntax"
+                        >
+                          {copiedPillarId === pillar.id ? (
+                            <>
+                              <Check className="w-3 h-3 text-emerald-400" />
+                              <span className="text-emerald-400">Copied</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-3 h-3" />
+                              <span>Copy</span>
+                            </>
+                          )}
+                        </button>
                       </div>
-                      <pre className="p-2 rounded bg-black/80 border border-slate-800 text-[10px] font-mono text-emerald-300 truncate">
+                      <pre className="p-2 rounded-lg bg-black/80 border border-slate-800 text-[10px] font-mono text-emerald-300 truncate">
                         <code>{pillar.sampleSyntax}</code>
                       </pre>
                     </div>

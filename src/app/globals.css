@@ -89,14 +89,7 @@
   transform: translateY(-2px);
 }
 
-/* Animated Border Beam */
-@keyframes border-beam {
-  100% {
-    offset-distance: 100%;
-  }
-}
-
-/* Pulse Glow & Radar */
+/* Radar Sweep Animation */
 @keyframes radar-sweep {
   0% {
     transform: rotate(0deg);
@@ -107,7 +100,8 @@
 }
 
 .animate-radar {
-  animation: radar-sweep 4s linear infinite;
+  animation: radar-sweep 3.5s linear infinite;
+  transform-origin: center center;
 }
 
 /* Selection */
@@ -116,11 +110,11 @@
   color: #6ee7b7;
 }
 
-/* Smooth fade in animations */
+/* Smooth Fade in Up */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -129,7 +123,67 @@
 }
 
 .animate-fade-in-up {
-  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Stream Slide-In for Live SOC Logs */
+@keyframes streamSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-stream-item {
+  animation: streamSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Pulse Alert Flashing */
+@keyframes alertPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(244, 63, 94, 0);
+    border-color: rgba(244, 63, 94, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 25px 4px rgba(244, 63, 94, 0.35);
+    border-color: rgba(244, 63, 94, 1);
+  }
+}
+
+.animate-alert-pulse {
+  animation: alertPulse 1.4s ease-in-out infinite;
+}
+
+/* Subtle Shimmer Sheen */
+@keyframes sheenSweep {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(200%) skewX(-15deg);
+  }
+}
+
+.group:hover .animate-sheen {
+  animation: sheenSweep 1s ease-in-out forwards;
+}
+
+/* Ambient Floating Glow Orb */
+@keyframes floatOrb {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-12px) scale(1.05);
+  }
+}
+
+.animate-float-slow {
+  animation: floatOrb 7s ease-in-out infinite;
 }
 
 /* Infinite Tools Marquee Animation */
@@ -145,9 +199,21 @@
 .animate-marquee {
   display: flex;
   width: max-content;
-  animation: marquee 30s linear infinite;
+  animation: marquee 28s linear infinite;
+  will-change: transform;
 }
 
 .animate-marquee:hover {
   animation-play-state: paused;
 }
+
+/* Cyber CRT Scanline Effect (Optional subtle texture) */
+.scanlines-overlay {
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+

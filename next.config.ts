@@ -28,17 +28,11 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  turbopack: {
-    root: process.cwd(),
+  output: "export",
+  images: {
+    unoptimized: true,
   },
-  async headers() {
-    return [
-      {
-        source: "/(.*)",
-        headers: securityHeaders,
-      },
-    ];
-  },
+  trailingSlash: true,
 };
 
 export default nextConfig;

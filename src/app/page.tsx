@@ -57,7 +57,7 @@ export default function Home() {
         <ToolsMarquee />
 
         {/* 4. Comprehensive Operational Profile & Core Defensive Pillars */}
-        <ProfileSection />
+        <ProfileSection onShowToast={showToast} />
 
         {/* 5. Proof of Competence & Platform Badges (TryHackMe, HTB, Certs) */}
         <CertBadges />

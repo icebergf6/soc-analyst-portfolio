@@ -49,10 +49,10 @@ export const HomelabTopology: React.FC<HomelabTopologyProps> = ({ onShowToast })
   };
 
   const flowNodes = [
-    { name: "Kali Attacker", vlan: "VLAN 10", ip: "192.168.10.99" },
-    { name: "pfSense Gateway", vlan: "VLAN 10/20", ip: "192.168.10.1" },
-    { name: "Victim Workstation", vlan: "VLAN 20", ip: "192.168.20.45" },
-    { name: "Wazuh SIEM Ingestion", vlan: "VLAN 30", ip: "192.168.30.50" },
+    { id: "node-kali", name: "Kali Attacker", vlan: "VLAN 10", ip: "192.168.10.99" },
+    { id: "node-firewall", name: "pfSense Gateway", vlan: "VLAN 10/20", ip: "192.168.10.1" },
+    { id: "node-workstation", name: "Victim Workstation", vlan: "VLAN 20", ip: "192.168.20.45" },
+    { id: "node-siem", name: "Wazuh SIEM Ingestion", vlan: "VLAN 30", ip: "192.168.30.50" },
   ];
 
   return (
@@ -93,29 +93,43 @@ export const HomelabTopology: React.FC<HomelabTopologyProps> = ({ onShowToast })
             </div>
           </div>
 
-          {/* Tracer Nodes Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {/* Tracer Nodes Grid with Interactive Click & Flow Indicator */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 relative">
             {flowNodes.map((fn, idx) => {
               const isCurrent = packetStep === idx;
+              const matchingNode = HOMELAB_NODES.find(n => n.id === fn.id || n.ip.includes(fn.ip.split(" ")[0]));
+
               return (
                 <div
                   key={fn.name}
-                  className={`relative p-3 rounded-lg border transition-all ${
+                  onClick={() => matchingNode && setSelectedNode(matchingNode)}
+                  className={`cursor-pointer relative p-3 rounded-xl border transition-all duration-300 ${
                     isCurrent
-                      ? "bg-emerald-500/15 border-emerald-500/80 shadow-md shadow-emerald-500/10 scale-[1.02]"
-                      : "bg-slate-950/60 border-slate-800"
+                      ? "bg-emerald-500/15 border-emerald-500/80 shadow-lg shadow-emerald-500/15 scale-[1.02]"
+                      : "bg-slate-950/60 border-slate-800 hover:border-slate-700 hover:bg-slate-900/60"
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-mono text-slate-400">{fn.vlan}</span>
-                    {isCurrent && (
-                      <span className="flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-emerald-400 opacity-75" />
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                    {isCurrent ? (
+                      <span className="flex h-2.5 w-2.5 relative">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
+                      </span>
+                    ) : (
+                      <span className="w-1.5 h-1.5 rounded-full bg-slate-700" />
+                    )}
+                  </div>
+                  <div className="text-xs font-semibold text-white mt-1.5 flex items-center justify-between">
+                    <span>{fn.name}</span>
+                    {idx < 3 && (
+                      <span className={`hidden md:inline-block text-[11px] font-mono transition-colors ${
+                        isCurrent ? "text-emerald-400 font-bold" : "text-slate-600"
+                      }`}>
+                        ➔
                       </span>
                     )}
                   </div>
-                  <div className="text-xs font-semibold text-white mt-1">{fn.name}</div>
                   <div className="text-[11px] font-mono text-emerald-400/90 mt-0.5">{fn.ip}</div>
                 </div>
               );
